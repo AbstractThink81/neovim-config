@@ -89,6 +89,11 @@ local builtin_plugins = {
             dark_variant = "main"
         }
     },
+    {
+      -- Onedark theme
+      "navarasu/onedark.nvim",
+      style = "darker"
+    },
     -- LSP stuffs
     -- Portable package manager for Neovim that runs everywhere Neovim runs.
     -- Easily install and manage LSP servers, DAP servers, linters, and formatters.
@@ -170,6 +175,10 @@ local builtin_plugins = {
             require("which-key").setup()
         end,
     },
+    -- Formatter
+    {
+        "psf/black"
+    },
 }
 
 local exist, custom = pcall(require, "custom")
@@ -197,7 +206,7 @@ require("lazy").setup({
         -- install missing plugins on startup
         missing = true,
         -- try to load one of these colorschemes when starting an installation during startup
-        colorscheme = { "rose-pine", "habamax" }
+        colorscheme = { "onedark", "habamax" }
     },
     checker = {
         -- automatically check for plugin updates
