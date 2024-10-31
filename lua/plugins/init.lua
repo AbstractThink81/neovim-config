@@ -179,6 +179,12 @@ local builtin_plugins = {
     {
         "psf/black"
     },
+    {
+      "kevinhwang91/nvim-ufo",
+      config = function()
+        require("kevinhwang91/promise-async")
+      end
+    }
 }
 
 local exist, custom = pcall(require, "custom")
