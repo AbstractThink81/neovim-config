@@ -89,11 +89,6 @@ local builtin_plugins = {
             dark_variant = "main"
         }
     },
-    {
-      -- Onedark theme
-      "navarasu/onedark.nvim",
-      style = "darker"
-    },
     -- LSP stuffs
     -- Portable package manager for Neovim that runs everywhere Neovim runs.
     -- Easily install and manage LSP servers, DAP servers, linters, and formatters.
@@ -175,15 +170,29 @@ local builtin_plugins = {
             require("which-key").setup()
         end,
     },
-    -- Formatter
-    {
-        "psf/black"
-    },
     {
       "kevinhwang91/nvim-ufo",
+      dependencies = { "kevinhwang91/promise-async" },
+      event = "BufRead",
+      keys = {
+        { "zR", function() require("ufo").openAllFolds() end },
+        { "zM", function() require("ufo").closeAllFolds() end },
+        { "K", function()
+            local winid = require("ufo").peekFoldedLinesUnderCursor()
+            if not winid then
+              vim.lsp.buf.hover()
+            end
+          end }
+      },
       config = function()
-        require("kevinhwang91/promise-async")
-      end
+        vim.o.foldcolumn = '1'
+        vim.o.foldlevel = 99
+        vim.o.foldlevelstart = 99
+        vim.o.foldenable = true
+        require("ufo").setup({
+          close_fold_kinds_for_ft = { "imports" },
+        })
+      end,
     }
 }
 
@@ -212,7 +221,7 @@ require("lazy").setup({
         -- install missing plugins on startup
         missing = true,
         -- try to load one of these colorschemes when starting an installation during startup
-        colorscheme = { "onedark", "habamax" }
+        colorscheme = { "habamax" }
     },
     checker = {
         -- automatically check for plugin updates
