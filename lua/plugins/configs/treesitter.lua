@@ -21,7 +21,8 @@ return {
         "yaml", "markdown", "html", "scss",
         "css", "vim", "lua", ensure_installed
     },
-
+    sync_install = false,
+    auto_install = true,
     highlight = {
         enable = true,
         use_languagetree = true

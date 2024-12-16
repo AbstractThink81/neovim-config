@@ -13,73 +13,73 @@
 local lualine = require("lualine")
 local lualine_require = require("lualine_require")
 
-local function loadcolors()
+-- local function loadcolors()
     -- Rose-pine palette
-    local rosepine = require("rose-pine.palette")
-    local colors = {
-        bg = rosepine.base,
-        fg = rosepine.text,
-        yellow = rosepine.gold,
-        cyan = rosepine.foam,
-        black = rosepine.subtled,
-        green = rosepine.pine,
-        white = rosepine.text,
-        magenta = rosepine.iris,
-        blue = rosepine.rose,
-        red = rosepine.love
-    }
+    -- local rosepine = require("rose-pine.palette")
+    -- local colors = {
+        -- bg = rosepine.base,
+        -- fg = rosepine.text,
+        -- yellow = rosepine.gold,
+        -- cyan = rosepine.foam,
+        -- black = rosepine.subtled,
+        -- green = rosepine.pine,
+        -- white = rosepine.text,
+        -- magenta = rosepine.iris,
+        -- blue = rosepine.rose,
+        -- red = rosepine.love
+    -- }
 
     -- Try to load pywal colors
-    local modules = lualine_require.lazy_require {
-        utils_notices = "lualine.utils.notices"
-    }
-    local sep = package.config:sub(1, 1)
-    local wal_colors_path = table.concat({ os.getenv("HOME"), ".cache", "wal", "colors.sh" }, sep)
-    local wal_colors_file = io.open(wal_colors_path, "r")
+    -- local modules = lualine_require.lazy_require {
+        -- utils_notices = "lualine.utils.notices"
+    -- }
+    -- local sep = package.config:sub(1, 1)
+    -- local wal_colors_path = table.concat({ os.getenv("HOME"), ".cache", "wal", "colors.sh" }, sep)
+    -- local wal_colors_file = io.open(wal_colors_path, "r")
 
-    if wal_colors_file == nil then
-        modules.utils_notices.add_notice("lualine.nvim: " .. wal_colors_path .. " not found")
-        return colors
-    end
+    -- if wal_colors_file == nil then
+        -- modules.utils_notices.add_notice("lualine.nvim: " .. wal_colors_path .. " not found")
+        -- return colors
+    -- end
 
-    local ok, wal_colors_text = pcall(wal_colors_file.read, wal_colors_file, "*a")
-    wal_colors_file:close()
+    -- local ok, wal_colors_text = pcall(wal_colors_file.read, wal_colors_file, "*a")
+    -- wal_colors_file:close()
 
-    if not ok then
-        modules.utils_notices.add_notice("lualine.nvim: " .. wal_colors_path .. " could not be read: " ..
-            wal_colors_text)
-        return colors
-    end
+    -- if not ok then
+        -- modules.utils_notices.add_notice("lualine.nvim: " .. wal_colors_path .. " could not be read: " ..
+            -- wal_colors_text)
+        -- return colors
+    -- end
 
-    local wal = {}
+    -- local wal = {}
 
-    for line in vim.gsplit(wal_colors_text, "\n") do
-        if line:match("^[a-z0-9]+='#[a-fA-F0-9]+'$") ~= nil then
-            local i = line:find("=")
-            local key = line:sub(0, i - 1)
-            local value = line:sub(i + 2, #line - 1)
-            wal[key] = value
-        end
-    end
+    -- for line in vim.gsplit(wal_colors_text, "\n") do
+        -- if line:match("^[a-z0-9]+='#[a-fA-F0-9]+'$") ~= nil then
+            -- local i = line:find("=")
+            -- local key = line:sub(0, i - 1)
+            -- local value = line:sub(i + 2, #line - 1)
+            -- wal[key] = value
+        -- end
+    -- end
 
     -- Color table for highlights
-    colors = {
-        bg = wal.background,
-        fg = wal.foreground,
-        yellow = wal.color3,
-        cyan = wal.color4,
-        black = wal.color0,
-        green = wal.color2,
-        white = wal.color7,
-        magenta = wal.color5,
-        blue = wal.color6,
-        red = wal.color1
-    }
+    -- colors = {
+        -- bg = wal.background,
+        -- fg = wal.foreground,
+        -- yellow = wal.color3,
+        -- cyan = wal.color4,
+        -- black = wal.color0,
+        -- green = wal.color2,
+        -- white = wal.color7,
+        -- magenta = wal.color5,
+        -- blue = wal.color6,
+        -- red = wal.color1
+    -- }
 
-    return colors
-end
+    -- return colors
+-- end
 
-local colors = loadcolors()
+-- local colors = loadcolors()
 
 local conditions = {
     buffer_not_empty = function()
@@ -102,23 +102,23 @@ local config = {
         component_separators = "",
         section_separators = "",
         disabled_filetypes = { "Lazy", "NvimTree" },
-        theme = {
+        theme = 'onedark' -- {
             -- We are going to use lualine_c an lualine_x as left and
             -- right section. Both are highlighted by c theme .  So we
             -- are just setting default looks o statusline
-            normal = {
-                c = {
-                    fg = colors.fg,
-                    bg = colors.bg
-                }
-            },
-            inactive = {
-                c = {
-                    fg = colors.fg,
-                    bg = colors.bg
-                }
-            }
-        }
+            -- normal = {
+                -- c = {
+                    -- fg = colors.fg,
+                    -- bg = colors.bg
+                -- }
+            -- },
+            -- inactive = {
+                -- c = {
+                    -- fg = colors.fg,
+                    -- bg = colors.bg
+                -- }
+            -- }
+        -- }
     },
     sections = {
         -- these are to remove the defaults
@@ -156,52 +156,52 @@ ins_left {
     function()
         return "▶"
     end,
-    color = function()
-        -- auto change color according to neovims mode
-        local mode_color = {
-            n = colors.red,
-            i = colors.green,
-            v = colors.blue,
-            [""] = colors.blue,
-            V = colors.blue,
-            c = colors.magenta,
-            no = colors.red,
-            s = colors.yellow,
-            S = colors.yellow,
-            [""] = colors.yellow,
-            ic = colors.yellow,
-            R = colors.white,
-            Rv = colors.white,
-            cv = colors.red,
-            ce = colors.red,
-            r = colors.cyan,
-            rm = colors.cyan,
-            ["r?"] = colors.cyan,
-            ["!"] = colors.red,
-            t = colors.red
-        }
-        return {
-            fg = mode_color[vim.fn.mode()]
-        }
-    end
+    -- color = function()
+    --     -- auto change color according to neovims mode
+    --     local mode_color = {
+    --         n = colors.red,
+    --         i = colors.green,
+    --         v = colors.blue,
+    --         [""] = colors.blue,
+    --         V = colors.blue,
+    --         c = colors.magenta,
+    --         no = colors.red,
+    --         s = colors.yellow,
+    --         S = colors.yellow,
+    --         [""] = colors.yellow,
+    --         ic = colors.yellow,
+    --         R = colors.white,
+    --         Rv = colors.white,
+    --         cv = colors.red,
+    --         ce = colors.red,
+    --         r = colors.cyan,
+    --         rm = colors.cyan,
+    --         ["r?"] = colors.cyan,
+    --         ["!"] = colors.red,
+    --         t = colors.red
+    --     }
+    --     return {
+    --         fg = mode_color[vim.fn.mode()]
+    --     }
+    -- end
 }
 
 ins_left {
     "filename",
     cond = conditions.buffer_not_empty,
-    color = {
-        fg = colors.magenta,
-        gui = "bold"
-    }
+    -- color = {
+    --     fg = colors.magenta,
+    --     gui = "bold"
+    -- }
 }
 
 ins_left {
     "branch",
     icon = " ",
-    color = {
-        fg = colors.blue,
-        gui = "bold"
-    }
+    -- color = {
+    --     fg = colors.blue,
+    --     gui = "bold"
+    -- }
 }
 
 ins_left {
@@ -212,17 +212,17 @@ ins_left {
         modified = " ",
         removed = " "
     },
-    diff_color = {
-        added = {
-            fg = colors.green
-        },
-        modified = {
-            fg = colors.yellow
-        },
-        removed = {
-            fg = colors.red
-        }
-    },
+    -- diff_color = {
+    --     added = {
+    --         fg = colors.green
+    --     },
+    --     modified = {
+    --         fg = colors.yellow
+    --     },
+    --     removed = {
+    --         fg = colors.red
+    --     }
+    -- },
     cond = conditions.hide_in_width
 }
 
@@ -250,10 +250,10 @@ ins_right {
         return msg
     end,
     icon = " LSP:",
-    color = {
-        fg = colors.cyan,
-        gui = "bold"
-    }
+    -- color = {
+    --     fg = colors.cyan,
+    --     gui = "bold"
+    -- }
 }
 
 ins_right {
@@ -265,20 +265,20 @@ ins_right {
         info = " ",
         hints = "󰛩 ",
     },
-    diagnostics_color = {
-        color_error = {
-            fg = colors.red
-        },
-        color_warn = {
-            fg = colors.yellow
-        },
-        color_info = {
-            fg = colors.cyan
-        },
-        color_hints = {
-            fg = colors.magenta
-        }
-    },
+    -- diagnostics_color = {
+    --     color_error = {
+    --         fg = colors.red
+    --     },
+    --     color_warn = {
+    --         fg = colors.yellow
+    --     },
+    --     color_info = {
+    --         fg = colors.cyan
+    --     },
+    --     color_hints = {
+    --         fg = colors.magenta
+    --     }
+    -- },
     always_visible = true
 }
 
@@ -286,36 +286,36 @@ ins_right {
     "o:encoding",     -- option component same as &encoding in viml
     fmt = string.upper,
     cond = conditions.hide_in_width,
-    color = {
-        fg = colors.green,
-        gui = "bold"
-    }
+    -- color = {
+    --     fg = colors.green,
+    --     gui = "bold"
+    -- }
 }
 
 ins_right {
     "fileformat",
     fmt = string.upper,
     icons_enabled = true,
-    color = {
-        fg = colors.green,
-        gui = "bold"
-    }
+    -- color = {
+    --     fg = colors.green,
+    --     gui = "bold"
+    -- }
 }
 
 ins_right {
     "location",
-    color = {
-        fg = colors.fg,
-        gui = "bold"
-    }
+    -- color = {
+    --     fg = colors.fg,
+    --     gui = "bold"
+    -- }
 }
 
 ins_right {
     "progress",
-    color = {
-        fg = colors.fg,
-        gui = "bold"
-    }
+    -- color = {
+    --     fg = colors.fg,
+    --     gui = "bold"
+    -- }
 }
 
 -- Now don"t forget to initialize lualine
