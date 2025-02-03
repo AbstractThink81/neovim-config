@@ -140,7 +140,7 @@ local builtin_plugins = {
             },
 
             -- autopairing of (){}[] etc
-            { "windwp/nvim-autopairs" },
+            -- { "windwp/nvim-autopairs" },
 
             -- cmp sources plugins
             {
@@ -155,6 +155,15 @@ local builtin_plugins = {
         opts = function()
             require("plugins.configs.cmp")
         end,
+    },
+    {
+      "windwp/nvim-autopairs",
+      config = function()
+        require("nvim-autopairs").setup({
+          ignored_next_char = '[%w%.%"]',
+          disable_filetype = { "TelescopePrompt" },
+        })
+      end,
     },
     -- Colorizer
     {
