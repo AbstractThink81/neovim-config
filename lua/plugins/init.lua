@@ -96,6 +96,7 @@ local builtin_plugins = {
     opts = {
       style = "warm",
     },
+<<<<<<< HEAD
   },
   -- LSP stuffs
   -- Portable package manager for Neovim that runs everywhere Neovim runs.
@@ -136,6 +137,156 @@ local builtin_plugins = {
         config = function(_, opts)
           require("luasnip").config.set_config(opts)
           require("plugins.configs.luasnip")
+=======
+    -- Telescope
+    -- Find, Filter, Preview, Pick. All lua, all the time.
+    {
+        "nvim-telescope/telescope.nvim",
+        dependencies = {
+            "nvim-lua/plenary.nvim",
+            "nvim-treesitter/nvim-treesitter",
+            {
+                "nvim-telescope/telescope-fzf-native.nvim",
+                build = "make"
+            }
+        },
+        cmd = "Telescope",
+        config = function(_)
+            require("telescope").setup()
+            -- To get fzf loaded and working with telescope, you need to call
+            -- load_extension, somewhere after setup function:
+            require("telescope").load_extension("fzf")
+            require("plugins.configs.telescope")
+        end
+    },
+    -- Statusline
+    -- A blazing fast and easy to configure neovim statusline plugin written in pure lua.
+    {
+        "nvim-lualine/lualine.nvim",
+        opts = function()
+            require("plugins.configs.lualine")
+        end
+    },
+    -- colorscheme
+    -- {
+        -- Rose-pine - Soho vibes for Neovim
+        -- "rose-pine/neovim",
+        -- name = "rose-pine",
+        -- opts = {
+            -- dark_variant = "main"
+        -- }
+    -- },
+    {
+        -- One Dark
+        "navarasu/onedark.nvim",
+        name = "onedark",
+        opts = {
+          style = "warm",
+        },
+    },
+    -- LSP stuffs
+    -- Portable package manager for Neovim that runs everywhere Neovim runs.
+    -- Easily install and manage LSP servers, DAP servers, linters, and formatters.
+    {
+        "williamboman/mason.nvim",
+        cmd = { "Mason", "MasonInstall", "MasonInstallAll", "MasonUninstall", "MasonUninstallAll", "MasonLog" },
+        config = function()
+            require("plugins.configs.mason")
+        end
+    },
+    { "williamboman/mason-lspconfig.nvim" },
+    {
+        "nvimtools/none-ls.nvim",
+        event = { "BufReadPre", "BufNewFile" },
+        dependencies = { "nvimtools/none-ls-extras.nvim" },
+        lazy = false,
+        config = function()
+            require("plugins.configs.null-ls")
+        end
+    },
+    {
+        "neovim/nvim-lspconfig",
+        event = "VimEnter",
+        config = function()
+            require("plugins.configs.lspconfig")
+        end,
+    },
+    {
+        "hrsh7th/nvim-cmp",
+        event = "InsertEnter",
+        dependencies = {
+            {
+                -- snippet plugin
+                "L3MON4D3/LuaSnip",
+                dependencies = "rafamadriz/friendly-snippets",
+                opts = { history = true, updateevents = "TextChanged,TextChangedI" },
+                config = function(_, opts)
+                    require("luasnip").config.set_config(opts)
+                    require("plugins.configs.luasnip")
+                end,
+            },
+
+            -- autopairing of (){}[] etc
+            -- { "windwp/nvim-autopairs" },
+
+            -- cmp sources plugins
+            {
+                "saadparwaiz1/cmp_luasnip",
+                "hrsh7th/cmp-nvim-lua",
+                "hrsh7th/cmp-nvim-lsp",
+                "hrsh7th/cmp-buffer",
+                "hrsh7th/cmp-path",
+                "onsails/lspkind.nvim",
+            },
+        },
+        opts = function()
+            require("plugins.configs.cmp")
+        end,
+    },
+    {
+      "windwp/nvim-autopairs",
+      config = function()
+        require("nvim-autopairs").setup({
+          ignored_next_char = '[%w%.%"]',
+          disable_filetype = { "TelescopePrompt" },
+        })
+      end,
+    },
+    -- Colorizer
+    {
+        "norcalli/nvim-colorizer.lua",
+        config = function(_)
+            require("colorizer").setup()
+
+            -- execute colorizer as soon as possible
+            vim.defer_fn(function()
+                require("colorizer").attach_to_buffer(0)
+            end, 0)
+        end
+    },
+    -- Keymappings
+    {
+        "folke/which-key.nvim",
+        event = "VeryLazy",
+        config = function()
+            require("which-key").setup()
+        end,
+    },
+    { "tpope/vim-unimpaired" },
+    -- Copilot
+    {
+      "zbirenbaum/copilot-cmp",
+      event = "InsertEnter",
+      config = function () require("copilot_cmp").setup() end,
+      dependencies = {
+        "zbirenbaum/copilot.lua",
+        cmd = "Copilot",
+        config = function()
+          require("copilot").setup({
+            suggestion = { enabled = false },
+            panel = { enabled = false },
+          })
+>>>>>>> 53f93fae4d72c4138a4b26e4529435b479ea714a
         end,
       },
 

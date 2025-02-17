@@ -32,6 +32,7 @@ map("n", "<leader>fb", builtin.buffers, { desc = "Open Telescope to list buffers
 map("n", "<leader>fh", builtin.help_tags, { desc = "Open Telescope to show help" })
 map("n", "<leader>fo", builtin.oldfiles, { desc = "Open Telescope to list recent files" })
 map("n", "<leader>cm", builtin.git_commits, { desc = "Open Telescope to list git commits" })
+map("n", "<leader>st", builtin.git_status, { desc = "Open Telescope to list current changes"})
 map("n", "<leader>fp", builtin.planets, { desc = "Use the telescope..." })
 map("n", "<leader>bi", builtin.builtin, { desc = "Open Telescope to list builtin pickers" })
 -- NvimTree
