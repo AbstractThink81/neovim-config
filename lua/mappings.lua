@@ -48,9 +48,6 @@ end, { desc = "General Format file" })
 -- global lsp mappings
 map("n", "<leader>ds", vim.diagnostic.setloclist, { desc = "LSP Diagnostic loclist" })
 
--- Errors
--- map("n", "gl", "<cmd>lua vim.diagnoscit.open_float()<CR>", opts)
-
 -- Comment
 map("n", "mm", "gcc", { desc = "Toggle comment", remap = true })
 map("v", "mm", "gc", { desc = "Toggle comment", remap = true })
