@@ -81,14 +81,6 @@ local builtin_plugins = {
         end
     },
     -- colorscheme
-    -- {
-        -- Rose-pine - Soho vibes for Neovim
-        -- "rose-pine/neovim",
-        -- name = "rose-pine",
-        -- opts = {
-            -- dark_variant = "main"
-        -- }
-    -- },
     {
         -- One Dark
         "navarasu/onedark.nvim",
@@ -188,19 +180,30 @@ local builtin_plugins = {
     { "tpope/vim-unimpaired" },
     -- Copilot
     {
+      -- "github/copilot.nvim",
+      -- lazy = false,
+      "zbirenbaum/copilot.lua",
+      cmd = "Copilot",
+      config = function()
+        require("copilot").setup({
+          suggestion = { enabled = false },
+          panel = { enabled = false },
+        })
+      end,
+    },
+    {
       "zbirenbaum/copilot-cmp",
       event = "InsertEnter",
       config = function () require("copilot_cmp").setup() end,
-      dependencies = {
-        "zbirenbaum/copilot.lua",
-        cmd = "Copilot",
-        config = function()
-          require("copilot").setup({
-            suggestion = { enabled = false },
-            panel = { enabled = false },
-          })
-        end,
-      },
+      dependencies = { "copilot.lua" },
+    },
+    -- Copilot Chat
+    {
+      "CopilotC-Nvim/CopilotChat.nvim",
+      config = function()
+        require("CopilotChat").setup()
+      end,
+      dependencies = { "copilot.lua" },
     },
 }
 
