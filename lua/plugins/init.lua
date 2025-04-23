@@ -183,6 +183,7 @@ local builtin_plugins = {
       -- "github/copilot.nvim",
       -- lazy = false,
       "zbirenbaum/copilot.lua",
+      enabled = true,
       cmd = "Copilot",
       config = function()
         require("copilot").setup({
@@ -193,6 +194,7 @@ local builtin_plugins = {
     },
     {
       "zbirenbaum/copilot-cmp",
+      enabled = true,
       event = "InsertEnter",
       config = function () require("copilot_cmp").setup() end,
       dependencies = { "copilot.lua" },
@@ -200,6 +202,7 @@ local builtin_plugins = {
     -- Copilot Chat
     {
       "CopilotC-Nvim/CopilotChat.nvim",
+      enabled = true,
       config = function()
         require("CopilotChat").setup()
       end,
@@ -226,7 +229,10 @@ local builtin_plugins = {
         },
       },
     },
+    -- This is for the unity integration
+    { "Hoffs/omnisharp-extended.nvim" },
 }
+
 
 local exist, custom = pcall(require, "custom")
 local custom_plugins = exist and type(custom) == "table" and custom.plugins or {}
