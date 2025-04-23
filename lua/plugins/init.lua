@@ -230,7 +230,7 @@ local builtin_plugins = {
       },
     },
     -- This is for the unity integration
-    { "Hoffs/omnisharp-extended.nvim" },
+    { "Hoffs/omnisharp-extended-lsp.nvim" },
 }
 
 
