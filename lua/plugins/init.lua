@@ -148,13 +148,28 @@ local builtin_plugins = {
             require("plugins.configs.cmp")
         end,
     },
+    { "hrsh7th/cmp-nvim-lsp-signature-help" },
+    {
+      "jmbuhr/otter.nvim",
+      dependencies = { "nvim-treesitter/nvim-treesitter", },
+      opts = {},
+    },
     {
       "windwp/nvim-autopairs",
       config = function()
-        require("nvim-autopairs").setup({
-          ignored_next_char = '[%w%.%"]',
+        local npairs = require("nvim-autopairs")
+        local Rule = require("nvim-autopairs.rule")
+        local cond = require('nvim-autopairs.conds')
+        npairs.setup({
+          ignored_next_char = [=[[%w%.]]=],
           disable_filetype = { "TelescopePrompt" },
+          enable_afterquote = false,
         })
+        -- npairs.add_rules({
+        --   Rule("$", "$"):with_pair(cond.not_after_regex("%'"))
+        -- })
+        npairs.add_rule(Rule("'", "'", "-python"))
+        npairs.add_rule(Rule('"', '"', "-python"))
       end,
     },
     -- Colorizer

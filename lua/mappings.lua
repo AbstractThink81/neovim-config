@@ -12,6 +12,24 @@
 
 -- <leader> is a space now
 local map = vim.keymap.set
+
+local M = {}
+
+M.pos_equal = function (p1, p2)
+  local r1, c1 = unpack(p1)
+  local r2, c2 = unpack(p2)
+  return r1 == r2 and c1 == c2
+end
+
+M.goto_error_then_hint = function ()
+  local pos = vim.api.nvim_win_get_cursor(0)
+  vim.diagnostic.goto_next( {severity=vim.diagnostic.severity.ERROR, wrap = true} )
+  local pos2 = vim.api.nvim_win_get_cursor(0)
+  if ( M.pos_equal(pos, pos2)) then
+    vim.diagnostic.goto_next( {wrap = tue} )
+  end
+end
+
 map("n", "<leader>q", ":qa!<CR>", {})
 -- Fast saving with <leader> and s
 map("n", "<leader>s", ":w<CR>", {})
@@ -20,6 +38,9 @@ map("n", "<leader>wh", "<C-w>h", { desc = "switch window left" })
 map("n", "<leader>wj", "<C-w>j", { desc = "switch window right" })
 map("n", "<leader>wk", "<C-w>k", { desc = "switch window up" })
 map("n", "<leader>wl", "<C-w>l", { desc = "switch window down" })
+
+map("n", "]g", M.goto_error_then_hint, { desc = "goto next error or hint if no more errors"})
+-- map("n", "[g", vim.diagnostic.goto_prev, { desc = "goto previous error"})
 
 -- Reload configuration without restart nvim
 map("n", "<leader>r", ":source $MYVIMRC<CR>", { desc = "Reload configuration without restart nvim" })
